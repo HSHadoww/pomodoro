@@ -1,24 +1,66 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <h1>{{ currentText }}</h1>
-        <h1>{{ currentTime }}</h1>
+  <v-container >
+    <v-row class="justify-between">
+      <v-col></v-col>
+      <v-col cols="3" class="text-center">
+        <v-card class="timer-card mx-auto" elevation="3" max-width="400"
+           height="200"
+           image="../images/iOZIMb32gr.jpg"
+           theme="dark">
+          <v-card-text>
+            <h1 class="title">{{ currentText }}</h1>
+            <h1 class="subheading">{{ currentTime }}</h1>
+          </v-card-text>
+          <v-card-actions>
+            <v-col cols="12" class="text-center">
+            <v-btn
+              class="control-btn"
+              variant="text" icon="mdi-play"
+              :disabled="status === STATUS.COUNTING || (currentItem.length === 0 && items.length === 0)"
+              @click="startTimer"
+            ></v-btn>
+            <v-btn
+              class="control-btn"
+              variant="text" icon="mdi-pause"
+              :disabled="status !== STATUS.COUNTING"
+              @click="pauseTimer"
+            ></v-btn>
+            <v-btn
+              class="control-btn"
+              variant="text" icon="mdi-skip-next"
+              :disabled="currentItem.length === 0"
+              @click="finishTimer"
+            ></v-btn>
+            </v-col>
+          </v-card-actions>
+        </v-card>
       </v-col>
-      <v-col cols="12">
-        <v-btn
-          variant="text" icon="mdi-play"
-          :disabled="status === STATUS.COUNTING || (currentItem.length === 0 && items.length === 0)"
-          @click="startTimer"
-        ></v-btn>
-        <v-btn
-          variant="text" icon="mdi-pause" :disabled="status !== STATUS.COUNTING"
-          @click="pauseTimer"
-        ></v-btn>
-        <v-btn variant="text" icon="mdi-skip-next" :disabled="currentItem.length === 0" @click="finishTimer"></v-btn>
+      <v-col></v-col>
+      <v-col cols="12" class="text-center">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/5adlUVCbDi96sYGUwJPoG9?utm_source=generator" width="40%" height="400" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </v-col>
     </v-row>
   </v-container>
+  <v-footer
+     class="bg-indigo-lighten-1 text-center d-flex flex-column"
+     id="fot"
+    >
+     <div>
+      <v-btn
+        v-for="icon in icons"
+        :key="icon"
+        class="mx-7"
+        :icon="icon"
+        variant="text"
+      ></v-btn>
+     </div>
+     <div class="pt-0">
+     </div>
+     <v-divider></v-divider>
+     <div>
+      {{ new Date().getFullYear() }} - <strong>好用的歡茄鐘</strong>
+     </div>
+    </v-footer>
 </template>
 
 <script setup>
@@ -109,3 +151,31 @@ const currentTime = computed(() => {
   return m + ':' + s
 })
 </script>
+<style scoped>
+.timer-card {
+  max-width: 400px;
+  margin: 20px;
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.subheading {
+  font-size: 40px;
+  color: #fff;
+  margin-top: 50px;
+}
+
+.control-btn {
+  font-size: 24px;
+  margin: 10px;
+  color: #333;
+}
+#fot{
+  top: 100%;
+
+}
+</style>

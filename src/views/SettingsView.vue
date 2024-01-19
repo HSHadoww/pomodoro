@@ -2,6 +2,12 @@
   <v-container>
     <v-row>
       <v-col cols="12">
+        <h1 class="text-center">主題色切換</h1>
+      </v-col>
+      <v-col cols="12" class="text-center">
+        <v-btn @click="toggleTheme">更換</v-btn>
+      </v-col>
+      <v-col cols="12">
         <h1 class="text-center">通知設定</h1>
       </v-col>
       <v-col cols="12">
@@ -44,9 +50,15 @@
 <script setup>
 import { useSettingsStore } from '@/store/settings'
 import { storeToRefs } from 'pinia'
+import { useTheme } from 'vuetify'
 
 const settings = useSettingsStore()
 const { alarms, selectedAlarm, notify } = storeToRefs(settings)
+const theme = useTheme()
+
+function toggleTheme () {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
 </script>
 
 <style scoped>
